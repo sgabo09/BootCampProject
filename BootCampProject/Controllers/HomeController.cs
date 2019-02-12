@@ -14,7 +14,5 @@ namespace BootCampProject.Controllers
 
             return View();
         }
-
-
     }
 }
