@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace BootCampProject.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public EmptyResult Index()
         {
-            ViewBag.Title = "Home Page";
-
-            return View();
+            return new EmptyResult();
         }
     }
 }
