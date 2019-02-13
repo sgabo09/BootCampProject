@@ -16,18 +16,5 @@ namespace BootCampProject.Models
         public string Status { get; set; }
         public CategoryEnum Category { get; set; }
         public int ParentId { get; set; }
-
-        public Todo()
-        {
-            Id = Guid.NewGuid();
-            Name = "Default";
-            Description = "None";
-            Priority = 1;
-            Responsible = "Not assigned";
-            Deadline = DateTime.Now.AddDays(1);
-            Status = "to-do";
-            Category = CategoryEnum.TASK;
-            ParentId = 1;
-        }
     }
 }
