@@ -12,7 +12,6 @@ namespace BootCampProject
         {
             // Web API configuration and services
             config.MapHttpAttributeRoutes();
-            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
             // Web API Routes
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
