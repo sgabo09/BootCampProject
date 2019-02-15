@@ -1,104 +1,74 @@
-﻿using BootCampProject.Models;
-using System;
-using System.Collections.Generic;
-using System.Net;
+﻿using System;
 using System.Web.Http;
+using BootCampProject.Models;
 
 namespace BootCampProject.Controllers.API
 {
     public class TodosController : ApiController
     {
-        static List<Todo> TodoList = new List<Todo>
-        {
-            new Todo
-            {
-                Name = "Todo1",
-                Priority = 2,
-                Deadline = new DateTime(2019, 02, 13)
-            },
-            new Todo
-            {
-                Name = "Todo2",
-                Priority = 3,
-                Deadline = new DateTime(2019, 03, 15),
-                Description = "Landing page",
-                Responsible = "Developer Sándor",
-                Status = "review",
-                Category = CategoryEnum.EPIC,
-                ParentId = 2
-            },
-            new Todo
-            {
-                Name = "Todo3",
-                Priority = 1,
-                Deadline = new DateTime(2019, 03, 15),
-                Description = "Add to cart does not work",
-                Responsible = "Frontend Ferenc",
-                Status = "reopen",
-                Category = CategoryEnum.BUG,
-                ParentId = 1
-            }
-        };
+        private TodoContext _db = new TodoContext();
 
-        private Todo GetTodoById(Guid id)
+        // GET: api/todos
+        public IHttpActionResult GetTodos()
         {
-            var todo = TodoList.Find(item => item.Id == id);
+            return Ok(_db.Todos);
+        }
+
+        // GET: api/todos/{id}
+        public IHttpActionResult GetTodo(Guid id)
+        {
+            var todo = _db.Todos.Find(id);
             if (todo is null)
             {
-                throw new ArgumentException("Given ID not found!");
+                return NotFound();
             }
-            else
-            {
-                return todo;
-            }
+
+            return Ok(todo);
         }
 
-        //GET /api/todos
-        public List<Todo> GetTodos()
-        {
-            return TodoList;
-        }
-
-        //GET /api/todos/{id}
-        public Todo GetTodo(Guid id)
-        {
-            return GetTodoById(id);
-        }
-
-        //POST api/todos
-        public IHttpActionResult CreateTodo([FromBody] Todo todo)
-        {
-            if (String.IsNullOrEmpty(todo.Name) || todo.Priority <= 0)
-            {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
-            }
-            TodoList.Add(todo);
-
-            return Ok("Todo created!");
-        }
-
-        //PATCH /api/todos/{id}
+        // PATCH: api/todos{id}
         public IHttpActionResult PatchTodo(Guid id, [FromBody] Todo todo)
         {
-            var old = GetTodoById(id);
-            old.Name = todo.Name;
-            old.Priority = todo.Priority;
-            old.Deadline = todo.Deadline;
-            old.Description = todo.Description;
-            old.Responsible = todo.Responsible;
-            old.Status = todo.Status;
-            old.Category = todo.Category;
-            old.ParentId = todo.ParentId;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            return Ok("Todo updated!");
+            todo.Id = id;
+            _db.Entry(_db.Todos.Find(id)).CurrentValues.SetValues(todo);
+            _db.SaveChanges();
+
+            return Ok("Todo updated successfully.");
         }
 
-        //DELETE /api/todos/{id}
+        // POST: api/todos
+        public IHttpActionResult PostTodo([FromBody] Todo todo)
+        {
+            todo.Id = Guid.NewGuid();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _db.Todos.Add(todo);
+            _db.SaveChanges();
+
+            return Ok("Todo added successfully.");
+        }
+
+        // DELETE: api/Todos/{id}
         public IHttpActionResult DeleteTodo(Guid id)
         {
-            TodoList.Remove(GetTodoById(id));
+            var todo = _db.Todos.Find(id);
+            if (todo is null)
+            {
+                return NotFound();
+            }
 
-            return Ok("Todo deleted!");
+            _db.Todos.Remove(todo);
+            _db.SaveChanges();
+
+            return Ok("Todo deleted successfully");
         }
     }
 }
