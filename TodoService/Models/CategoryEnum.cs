@@ -1,4 +1,4 @@
-﻿namespace BootCampProject.Models
+﻿namespace TodoService.Models
 {
     public enum CategoryEnum
     {

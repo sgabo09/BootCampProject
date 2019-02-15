@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BootCampProject", "BootCampProject\BootCampProject.csproj", "{87D3B64D-A242-44EF-864C-BF6A39FA8648}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoAPI", "BootCampProject\TodoAPI.csproj", "{87D3B64D-A242-44EF-864C-BF6A39FA8648}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TodoData", "TodoData\TodoData.sqlproj", "{9A716442-2544-4B51-829D-C2DAF390655B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoService", "TodoService\TodoService.csproj", "{5BFF9069-3B6E-4756-9E54-09949980F52B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{9A716442-2544-4B51-829D-C2DAF390655B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A716442-2544-4B51-829D-C2DAF390655B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9A716442-2544-4B51-829D-C2DAF390655B}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{5BFF9069-3B6E-4756-9E54-09949980F52B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BFF9069-3B6E-4756-9E54-09949980F52B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BFF9069-3B6E-4756-9E54-09949980F52B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BFF9069-3B6E-4756-9E54-09949980F52B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
