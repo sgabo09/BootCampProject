@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Web.Http.OData;
 using TodoService.Models;
 
@@ -18,6 +21,11 @@ namespace TodoService.Logics
         {
             return db.Todos.Find(id);
         }
+
+        public IEnumerable<Todo> GetTodosByCategory(int categoryId)
+        {
+            return db.Todos.Where(c => categoryId == c.Category);
+        } 
 
         public bool PatchTodo(Guid id, Delta<Todo> todo)
         {

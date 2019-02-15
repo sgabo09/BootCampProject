@@ -7,11 +7,11 @@ using TodoService.Models;
 
 namespace BootCampProject.Controllers.API
 {
-    public class TodosController : ApiController
+    public class TodosController : ApiController, ITodoInterface
     {
         private TodoLogic todoLogic = new TodoLogic();
 
-        // GET: api/todos
+        // GET: api/todos?{categoryId}
         public IHttpActionResult GetTodos()
         {
             return Ok(todoLogic.GetAllTodo());
@@ -21,6 +21,12 @@ namespace BootCampProject.Controllers.API
         public IHttpActionResult GetTodo(Guid id)
         { 
             return Ok(todoLogic.GetTodoById(id));
+        }
+
+        // GET: api/todos/category/{id}
+        public IHttpActionResult GetTodosByCategory(int categoryId)
+        {
+            return Ok(todoLogic.GetTodosByCategory(categoryId));
         }
 
         // PATCH: api/todos{id}

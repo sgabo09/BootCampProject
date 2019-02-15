@@ -121,6 +121,7 @@
     <Compile Include="Models\TodoContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Logics\TodoLogic.cs" />
+    <Compile Include="Interfaces\ITodoInterface.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
