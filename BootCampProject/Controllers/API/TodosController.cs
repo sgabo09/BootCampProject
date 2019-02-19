@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Web.Http;
 using System.Web.Http.OData;
-using TodoService;
 using TodoService.Logics;
 using TodoService.Models;
 
 namespace BootCampProject.Controllers.API
 {
-    public class TodosController : ApiController, ITodoInterface
+    public class TodosController : ApiController
     {
         private TodoLogic todoLogic = new TodoLogic();
 
-        // GET: api/todos?{categoryId}
+        // GET: api/todos
         public IHttpActionResult GetTodos()
         {
             return Ok(todoLogic.GetAllTodo());
@@ -23,10 +22,32 @@ namespace BootCampProject.Controllers.API
             return Ok(todoLogic.GetTodoById(id));
         }
 
-        // GET: api/todos/category/{id}
+        [Route("api/todos/category")]
+        [HttpGet]
+        public IHttpActionResult GetTodosCategory()
+        {
+            return Ok(todoLogic.GetAllTodosByCategory());
+        }
+
+        [Route("api/todos/category/{categoryId}")]
+        [HttpGet]
         public IHttpActionResult GetTodosByCategory(int categoryId)
         {
             return Ok(todoLogic.GetTodosByCategory(categoryId));
+        }
+
+        [Route("api/todos/recent")]
+        [HttpGet]
+        public IHttpActionResult GetRecentTodos()
+        {
+            return Ok(todoLogic.GetRecentTodos());
+        }
+
+        [Route("api/todos/tree")]
+        [HttpGet]
+        public IHttpActionResult GetTodoTree()
+        {
+            return Ok();
         }
 
         // PATCH: api/todos{id}

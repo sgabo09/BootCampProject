@@ -20,6 +20,7 @@ namespace TodoService.Models
         public string Status { get; set; }
         [Range(1,3)]
         public int Category { get; set; }
-        public int ParentId { get; set; }
+        public Guid ParentId { get; set; }
+        public DateTime LastModified { get; set; }
     }
 }

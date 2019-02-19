@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -8,11 +7,11 @@ using TodoService.Models;
 
 namespace TodoService.Logics
 {
-    public class TodoLogic
+    public class TodoLogic : ITodoInterface
     {
         private TodoContext db = new TodoContext();
 
-        public DbSet<Todo> GetAllTodo()
+        public IQueryable<Todo> GetAllTodo()
         {
             return db.Todos;
         }
@@ -25,7 +24,17 @@ namespace TodoService.Logics
         public IEnumerable<Todo> GetTodosByCategory(int categoryId)
         {
             return db.Todos.Where(c => categoryId == c.Category);
-        } 
+        }
+        
+        public IQueryable<IGrouping<int, Todo>> GetAllTodosByCategory()
+        {
+            return db.Todos.GroupBy(c => c.Category);
+        }
+
+        public IEnumerable<Todo> GetRecentTodos()
+        {
+            return db.Todos.Where(t => t.Status.Equals("Open") || DbFunctions.DiffMinutes(t.LastModified, DateTime.Now) <= 120);
+        }
 
         public bool PatchTodo(Guid id, Delta<Todo> todo)
         {
@@ -34,7 +43,8 @@ namespace TodoService.Logics
             {
                 return false;
             }
-   
+            
+            temp.LastModified = DateTime.Now;
             todo.Patch(temp);
             db.SaveChanges();
 
@@ -44,6 +54,7 @@ namespace TodoService.Logics
         public void PostTodo(Todo todo)
         {
             todo.Id = Guid.NewGuid();
+            todo.LastModified = DateTime.Now;
             db.Todos.Add(todo);
             db.SaveChanges();
         }

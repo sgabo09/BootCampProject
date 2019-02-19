@@ -8,6 +8,7 @@ namespace BootCampProject
         {
             // Web API configuration and services
             config.MapHttpAttributeRoutes();
+
             // Web API Routes
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

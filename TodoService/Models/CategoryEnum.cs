@@ -2,8 +2,8 @@
 {
     public enum CategoryEnum
     {
-        BUG,
-        TASK,
-        EPIC
+        EPIC = 1,
+        TASK = 2,
+        BUG = 3
     }
 }

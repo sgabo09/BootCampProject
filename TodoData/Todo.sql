@@ -8,5 +8,6 @@
 	[Deadline] DATETIME2 NULL, 
 	[Status] NVARCHAR(50) NULL, 
 	[Category] INT NULL, 
-	[ParentId] INT NULL
+	[ParentId] UNIQUEIDENTIFIER NULL,
+	[LastModified] DATETIME2 NULL
 )
