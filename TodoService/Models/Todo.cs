@@ -1,8 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BootCampProject.Models
+namespace TodoService.Models
 {
     public class Todo
     {
@@ -21,6 +20,7 @@ namespace BootCampProject.Models
         public string Status { get; set; }
         [Range(1,3)]
         public int Category { get; set; }
-        public int ParentId { get; set; }
+        public Guid ParentId { get; set; }
+        public DateTime LastModified { get; set; }
     }
 }
