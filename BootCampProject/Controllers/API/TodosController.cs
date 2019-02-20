@@ -47,7 +47,7 @@ namespace BootCampProject.Controllers.API
         [HttpGet]
         public IHttpActionResult GetTodoTree()
         {
-            return Ok();
+            return Ok(todoLogic.GetTodoTree());
         }
 
         // PATCH: api/todos{id}

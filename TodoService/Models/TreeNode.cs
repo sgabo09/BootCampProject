@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace TodoService.Models
 {
     public class TreeNode
     {
-        static TodoContext db = new TodoContext();
+        public Todo Node { get; set; }
+        public List<TreeNode> Children { get; set; }
+
+        public TreeNode()
+        {
+            Children = new List<TreeNode>();
+        }
     }
 }
