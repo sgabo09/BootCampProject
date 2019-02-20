@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Http.OData;
 using TodoService.Models;
+using TodoService.Models.Enums;
 using Guid = System.Guid;
 
 namespace TodoService.Logics
@@ -24,14 +25,14 @@ namespace TodoService.Logics
             return _db.Todos.Find(id);
         }
 
-        public IEnumerable<Todo> GetTodosByCategory(int categoryId)
+        public IEnumerable<Todo> GetTodosByCategory(CategoryEnum categoryId)
         {
             return _db.Todos.Where(c => categoryId == c.Category);
         }
         
-        public IQueryable<IGrouping<int, Todo>> GetAllTodosByCategory()
+        public IQueryable<IGrouping<CategoryEnum, Todo>> GetAllTodosByCategory()
         {
-            return _db.Todos.GroupBy(c => c.Category);
+           return _db.Todos.GroupBy(c => c.Category);
         }
 
         public IEnumerable<Todo> GetRecentTodos()
