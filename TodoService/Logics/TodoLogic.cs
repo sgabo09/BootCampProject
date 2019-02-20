@@ -82,7 +82,7 @@ namespace TodoService.Logics
         public void PostTodo(Todo todo)
         {
             todo.Id = Guid.NewGuid();
-            todo.LastModified = DateTime.Now;
+            todo.CreationDate = DateTime.Now;
             db.Todos.Add(todo);
             db.SaveChanges();
         }
