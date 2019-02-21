@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Http.OData;
 using TodoService.Models;
@@ -13,7 +12,13 @@ namespace TodoService.Logics
     public class TodoLogic : ITodoInterface
     {
         private TodoContext _db = new TodoContext();
-        private int _timeInterval = Convert.ToInt32(ConfigurationManager.AppSettings.GetValues("RecentTimeInterval"));
+        private int _timeInterval = 0;
+
+
+        public TodoLogic()
+        {
+            int.TryParse(ConfigurationManager.AppSettings["RecentTimeInterval"], out _timeInterval);
+        }
 
 
         public IQueryable<Todo> GetAllTodo()
@@ -56,8 +61,9 @@ namespace TodoService.Logics
 
         public IEnumerable<Todo> GetRecentTodos()
         {
-            var currentTime = DateTime.Now;
-            return _db.Todos.Where(t => t.Status.Equals("Open") || DbFunctions.DiffMinutes(t.LastModified, currentTime) <= _timeInterval);
+            DateTime recentInterval = DateTime.Now.AddMinutes(_timeInterval * -1);
+
+            return _db.Todos.Where(t => t.Status.Equals("Open") || recentInterval <= t.LastModified);
         }
 
         public IEnumerable<TreeNode> GetTodoTree()
@@ -84,6 +90,7 @@ namespace TodoService.Logics
                     }
                 }
             }
+
             return rootNodes;
         }
 
