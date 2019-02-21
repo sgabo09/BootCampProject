@@ -118,6 +118,7 @@
   <ItemGroup>
     <Compile Include="Models\Enums\CategoryEnum.cs" />
     <Compile Include="Models\Todo.cs" />
+    <Compile Include="Models\TodoCategory.cs" />
     <Compile Include="Models\TodoContext.cs" />
     <Compile Include="Models\TreeNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

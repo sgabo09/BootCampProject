@@ -15,6 +15,7 @@ namespace TodoService.Logics
         private TodoContext _db = new TodoContext();
         private int _timeInterval = Convert.ToInt32(ConfigurationManager.AppSettings.GetValues("RecentTimeInterval"));
 
+
         public IQueryable<Todo> GetAllTodo()
         {
             return _db.Todos;
@@ -30,9 +31,27 @@ namespace TodoService.Logics
             return _db.Todos.Where(c => categoryId == c.Category);
         }
         
-        public IQueryable<IGrouping<CategoryEnum, Todo>> GetAllTodosByCategory()
+        public List<TodoCategory> GetAllTodosByCategory()
         {
-           return _db.Todos.GroupBy(c => c.Category);
+            var todoCategories = new List<TodoCategory>();
+
+            foreach (CategoryEnum category in Enum.GetValues(typeof(CategoryEnum)))
+            {
+                todoCategories.Add(new TodoCategory{ Type = category});
+            }
+
+            foreach (var todo in _db.Todos)
+            {
+                foreach (var category in todoCategories)
+                {
+                    if (todo.Category == category.Type)
+                    {
+                        category.Issues.Add(todo);
+                    }
+                }                
+            }
+
+            return todoCategories;
         }
 
         public IEnumerable<Todo> GetRecentTodos()
