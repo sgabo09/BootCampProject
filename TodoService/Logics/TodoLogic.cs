@@ -1,44 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Http.OData;
 using TodoService.Models;
+using TodoService.Models.Enums;
+using Guid = System.Guid;
 
 namespace TodoService.Logics
 {
     public class TodoLogic : ITodoInterface
     {
-        private TodoContext db = new TodoContext();
+        private TodoContext _db = new TodoContext();
+        private int _timeInterval = Convert.ToInt32(ConfigurationManager.AppSettings.GetValues("RecentTimeInterval"));
 
         public IQueryable<Todo> GetAllTodo()
         {
-            return db.Todos;
+            return _db.Todos;
         }
 
         public Todo GetTodoById(Guid id)
         {
-            return db.Todos.Find(id);
+            return _db.Todos.Find(id);
         }
 
-        public IEnumerable<Todo> GetTodosByCategory(int categoryId)
+        public IEnumerable<Todo> GetTodosByCategory(CategoryEnum categoryId)
         {
-            return db.Todos.Where(c => categoryId == c.Category);
+            return _db.Todos.Where(c => categoryId == c.Category);
         }
         
-        public IQueryable<IGrouping<int, Todo>> GetAllTodosByCategory()
+        public IQueryable<IGrouping<CategoryEnum, Todo>> GetAllTodosByCategory()
         {
-            return db.Todos.GroupBy(c => c.Category);
+           return _db.Todos.GroupBy(c => c.Category);
         }
 
         public IEnumerable<Todo> GetRecentTodos()
         {
-            return db.Todos.Where(t => t.Status.Equals("Open") || DbFunctions.DiffMinutes(t.LastModified, DateTime.Now) <= 120);
+            var currentTime = DateTime.Now;
+            return _db.Todos.Where(t => t.Status.Equals("Open") || DbFunctions.DiffMinutes(t.LastModified, currentTime) <= _timeInterval);
+        }
+
+        public IEnumerable<TreeNode> GetTodoTree()
+        {
+            var dictionary = new Dictionary<Guid, TreeNode>();
+            var rootNodes = new List<TreeNode>();
+
+            foreach (var todo in _db.Todos)
+            {
+                var treeNode = new TreeNode {Node = todo};
+
+                dictionary.Add(todo.Id, treeNode);
+
+                if (todo.ParentId == Guid.Empty)
+                {
+                    rootNodes.Add(treeNode);
+                }
+
+                foreach (var item in dictionary.Values)
+                {
+                    if (item.Node.ParentId == todo.Id)
+                    {
+                        treeNode.Children.Add(item);
+                    }
+                }
+            }
+            return rootNodes;
         }
 
         public bool PatchTodo(Guid id, Delta<Todo> todo)
         {
-            var temp = db.Todos.Find(id);
+            var temp = _db.Todos.Find(id);
             if (temp is null)
             {
                 return false;
@@ -46,7 +78,7 @@ namespace TodoService.Logics
             
             temp.LastModified = DateTime.Now;
             todo.Patch(temp);
-            db.SaveChanges();
+            _db.SaveChanges();
 
             return true;
         }
@@ -54,20 +86,20 @@ namespace TodoService.Logics
         public void PostTodo(Todo todo)
         {
             todo.Id = Guid.NewGuid();
-            todo.LastModified = DateTime.Now;
-            db.Todos.Add(todo);
-            db.SaveChanges();
+            todo.CreationDate = DateTime.Now;
+            _db.Todos.Add(todo);
+            _db.SaveChanges();
         }
 
         public bool DeleteTodo(Guid id)
         {
-            var todo = db.Todos.Find(id);
+            var todo = _db.Todos.Find(id);
             if (todo is null)
             {
                 return false;
             }
-            db.Todos.Remove(todo);
-            db.SaveChanges();
+            _db.Todos.Remove(todo);
+            _db.SaveChanges();
 
             return true;
         }

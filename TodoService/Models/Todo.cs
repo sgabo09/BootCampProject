@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using TodoService.Models.Enums;
 
 namespace TodoService.Models
 {
@@ -7,6 +8,8 @@ namespace TodoService.Models
     {
         [Key]
         public Guid Id { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime LastModified { get; set; }
         [Required, StringLength(50)]
         public string Name { get; set; }
         [StringLength(500)]
@@ -19,8 +22,8 @@ namespace TodoService.Models
         [StringLength(50)]
         public string Status { get; set; }
         [Range(1,3)]
-        public int Category { get; set; }
+        public CategoryEnum Category { get; set; }
         public Guid ParentId { get; set; }
-        public DateTime LastModified { get; set; }
+
     }
 }

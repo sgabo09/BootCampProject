@@ -1,4 +1,4 @@
-﻿namespace TodoService.Models
+﻿namespace TodoService.Models.Enums
 {
     public enum CategoryEnum
     {

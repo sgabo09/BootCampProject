@@ -3,6 +3,7 @@ using System.Web.Http;
 using System.Web.Http.OData;
 using TodoService.Logics;
 using TodoService.Models;
+using TodoService.Models.Enums;
 
 namespace BootCampProject.Controllers.API
 {
@@ -31,7 +32,7 @@ namespace BootCampProject.Controllers.API
 
         [Route("api/todos/category/{categoryId}")]
         [HttpGet]
-        public IHttpActionResult GetTodosByCategory(int categoryId)
+        public IHttpActionResult GetTodosByCategory(CategoryEnum categoryId)
         {
             return Ok(todoLogic.GetTodosByCategory(categoryId));
         }
@@ -47,7 +48,7 @@ namespace BootCampProject.Controllers.API
         [HttpGet]
         public IHttpActionResult GetTodoTree()
         {
-            return Ok();
+            return Ok(todoLogic.GetTodoTree());
         }
 
         // PATCH: api/todos{id}
