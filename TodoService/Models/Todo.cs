@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using TodoService.Models.Enums;
 
 namespace TodoService.Models
@@ -24,6 +25,24 @@ namespace TodoService.Models
         [Range(1,3)]
         public CategoryEnum Category { get; set; }
         public Guid ParentId { get; set; }
+        [NotMapped]
+        public int RemainingWorkHours {
+            get
+            {
+                var hours = 0;
+                for (var i = DateTime.Now; i < this.Deadline; i = i.AddHours(1))
+                {
+                    if (i.DayOfWeek != DayOfWeek.Saturday && i.DayOfWeek != DayOfWeek.Sunday)
+                    {
+                        if (i.TimeOfDay.Hours >= 9 && i.TimeOfDay.Hours < 17)
+                        {
+                            hours++;
+                        }
+                    }
+                }
 
+                return hours;
+            }
+        }
     }
 }
