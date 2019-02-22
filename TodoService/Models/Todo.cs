@@ -44,5 +44,6 @@ namespace TodoService.Models
                 return hours;
             }
         }
+        public bool IsDeleted { get; set; }
     }
 }

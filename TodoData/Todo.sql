@@ -10,5 +10,6 @@
 	[Deadline] DATETIME2 NULL, 
 	[Status] NVARCHAR(50) NULL, 
 	[Category] INT NULL, 
-	[ParentId] UNIQUEIDENTIFIER NULL
+	[ParentId] UNIQUEIDENTIFIER NULL, 
+	[IsDeleted] BIT NULL
 	)

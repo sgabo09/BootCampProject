@@ -16,7 +16,7 @@ namespace TodoService.Logics
 
 
         public TodoLogic()
-        {
+        { 
             int.TryParse(ConfigurationManager.AppSettings["RecentTimeInterval"], out _timeInterval);
         }
 
@@ -113,6 +113,7 @@ namespace TodoService.Logics
         {
             todo.Id = Guid.NewGuid();
             todo.CreationDate = DateTime.Now;
+            todo.IsDeleted = false;
             _db.Todos.Add(todo);
             _db.SaveChanges();
         }
@@ -124,7 +125,7 @@ namespace TodoService.Logics
             {
                 return false;
             }
-            _db.Todos.Remove(todo);
+            todo.IsDeleted = true;
             _db.SaveChanges();
 
             return true;
