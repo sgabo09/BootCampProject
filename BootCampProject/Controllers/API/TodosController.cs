@@ -1,4 +1,9 @@
 ﻿using System;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.OData;
 using TodoService.Logics;
@@ -49,6 +54,15 @@ namespace BootCampProject.Controllers.API
         public IHttpActionResult GetTodoTree()
         {
             return Ok(todoLogic.GetTodoTree());
+        }
+
+        [Route("api/todos/category/download/{fileName}")]
+        [HttpGet]
+        public HttpResponseMessage GetThumbnail(string fileName)
+        {
+            
+            var response = Request.CreateResponse(HttpStatusCode.OK);
+            return todoLogic.GetThumbnail(response, fileName);
         }
 
         // PATCH: api/todos{id}

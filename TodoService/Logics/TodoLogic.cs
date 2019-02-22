@@ -1,8 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Web.Http;
 using System.Web.Http.OData;
+using System.Web.Http.Results;
+using System.Web.WebPages.Scope;
 using TodoService.Models;
 using TodoService.Models.Enums;
 using Guid = System.Guid;
@@ -14,12 +21,10 @@ namespace TodoService.Logics
         private TodoContext _db = new TodoContext();
         private int _timeInterval = 0;
 
-
         public TodoLogic()
         { 
             int.TryParse(ConfigurationManager.AppSettings["RecentTimeInterval"], out _timeInterval);
         }
-
 
         public IQueryable<Todo> GetAllTodo()
         {
@@ -92,6 +97,24 @@ namespace TodoService.Logics
             }
 
             return rootNodes;
+        }
+
+        public HttpResponseMessage GetThumbnail(HttpResponseMessage response, string fileName)
+        {
+            var filePath = "C:/Users/somogyig/Downloads/" + fileName + ".png";
+            if (!File.Exists(filePath))
+            {
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
+            var bytes = File.ReadAllBytes(filePath);
+            var stream = new MemoryStream(bytes);
+            response.Content = new StreamContent(stream);
+            response.Content.Headers.ContentLength = bytes.LongLength;
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = fileName + ".png";
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+
+            return response;
         }
 
         public bool PatchTodo(Guid id, Delta<Todo> todo)
