@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data.Entity.Infrastructure;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -56,13 +59,11 @@ namespace BootCampProject.Controllers.API
             return Ok(todoLogic.GetTodoTree());
         }
 
-        [Route("api/todos/category/download/{fileName}")]
+        [Route("api/todos/responsibility/{responsible}")]
         [HttpGet]
-        public HttpResponseMessage GetThumbnail(string fileName)
+        public List<Task> GetTasks(string responsible)
         {
-            
-            var response = Request.CreateResponse(HttpStatusCode.OK);
-            return todoLogic.GetThumbnail(response, fileName);
+            return todoLogic.GetTasksByResponsible(responsible);
         }
 
         // PATCH: api/todos{id}

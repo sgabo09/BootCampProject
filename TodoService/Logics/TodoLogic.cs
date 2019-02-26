@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -99,22 +101,11 @@ namespace TodoService.Logics
             return rootNodes;
         }
 
-        public HttpResponseMessage GetThumbnail(HttpResponseMessage response, string fileName)
+        public List<Task> GetTasksByResponsible(string responsible)
         {
-            var filePath = "C:/Users/somogyig/Downloads/" + fileName + ".png";
-            if (!File.Exists(filePath))
-            {
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
-            }
-            var bytes = File.ReadAllBytes(filePath);
-            var stream = new MemoryStream(bytes);
-            response.Content = new StreamContent(stream);
-            response.Content.Headers.ContentLength = bytes.LongLength;
-            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-            response.Content.Headers.ContentDisposition.FileName = fileName + ".png";
-            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+            var param1 = new SqlParameter("@Responsible", responsible);
 
-            return response;
+            return _db.Database.SqlQuery<Task>("EXEC GetTasksByResponsible @Responsible", param1).ToList();
         }
 
         public bool PatchTodo(Guid id, Delta<Todo> todo)

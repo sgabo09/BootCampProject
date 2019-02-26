@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Enums\CategoryEnum.cs" />
+    <Compile Include="Models\Task.cs" />
     <Compile Include="Models\Todo.cs" />
     <Compile Include="Models\TodoCategory.cs" />
     <Compile Include="Models\TodoContext.cs" />
