@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[Category]
+(
+	[CategoryId] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+	[CreationDate] DATETIME2 NULL, 
+	[LastModified] DATETIME2 NULL, 
+	[Name] NVARCHAR(50) NULL
+)

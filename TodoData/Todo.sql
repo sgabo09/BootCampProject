@@ -9,7 +9,8 @@
 	[Responsible] NVARCHAR(50) NULL, 
 	[Deadline] DATETIME2 NULL, 
 	[Status] NVARCHAR(50) NULL, 
-	[Category] INT NULL, 
+	[CategoryId] UNIQUEIDENTIFIER NULL, 
 	[ParentId] UNIQUEIDENTIFIER NULL, 
-	[IsDeleted] BIT NULL
+	[IsDeleted] BIT NULL, 
+	CONSTRAINT [FK_Todo_ToCategory] FOREIGN KEY (CategoryId) REFERENCES [Category]([CategoryId])
 	)

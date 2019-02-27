@@ -1,19 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Web.Http;
 using System.Web.Http.OData;
-using System.Web.Http.Results;
-using System.Web.WebPages.Scope;
 using TodoService.Models;
-using TodoService.Models.Enums;
 using Guid = System.Guid;
 
 namespace TodoService.Logics
@@ -38,32 +29,14 @@ namespace TodoService.Logics
             return _db.Todos.Find(id);
         }
 
-        public IEnumerable<Todo> GetTodosByCategory(CategoryEnum categoryId)
+        public IEnumerable<Todo> GetTodosByCategory(Guid categoryId)
         {
-            return _db.Todos.Where(c => categoryId == c.Category);
+            return _db.Todos.Where(c => categoryId == c.CategoryId);
         }
         
-        public List<TodoCategory> GetAllTodosByCategory()
+        public Dictionary<string, List<Todo>> GetAllTodosByCategory()
         {
-            var todoCategories = new List<TodoCategory>();
-
-            foreach (CategoryEnum category in Enum.GetValues(typeof(CategoryEnum)))
-            {
-                todoCategories.Add(new TodoCategory{ Type = category});
-            }
-
-            foreach (var todo in _db.Todos)
-            {
-                foreach (var category in todoCategories)
-                {
-                    if (todo.Category == category.Type)
-                    {
-                        category.Issues.Add(todo);
-                    }
-                }                
-            }
-
-            return todoCategories;
+            return _db.Todos.Include("Category").GroupBy(t => t.Category).ToDictionary(g => g.Key.Name, g => g.ToList());
         }
 
         public IEnumerable<Todo> GetRecentTodos()

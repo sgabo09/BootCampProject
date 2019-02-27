@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using TodoService.Models.Enums;
 
 namespace TodoService.Models
 {
@@ -22,8 +21,7 @@ namespace TodoService.Models
         public DateTime Deadline { get; set; }
         [StringLength(50)]
         public string Status { get; set; }
-        [Range(1,3)]
-        public CategoryEnum Category { get; set; }
+        public Guid CategoryId { get; set; }
         public Guid ParentId { get; set; }
         [NotMapped]
         public int RemainingWorkHours {
@@ -45,5 +43,6 @@ namespace TodoService.Models
             }
         }
         public bool IsDeleted { get; set; }
+        public Category Category { get; set; }
     }
 }

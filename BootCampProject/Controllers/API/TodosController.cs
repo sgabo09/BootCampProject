@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.Entity.Infrastructure;
-using System.IO;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.OData;
 using TodoService.Logics;
 using TodoService.Models;
-using TodoService.Models.Enums;
 
 namespace BootCampProject.Controllers.API
 {
@@ -40,7 +32,7 @@ namespace BootCampProject.Controllers.API
 
         [Route("api/todos/category/{categoryId}")]
         [HttpGet]
-        public IHttpActionResult GetTodosByCategory(CategoryEnum categoryId)
+        public IHttpActionResult GetTodosByCategory(Guid categoryId)
         {
             return Ok(todoLogic.GetTodosByCategory(categoryId));
         }

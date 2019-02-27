@@ -7,4 +7,39 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="RemainingWokHours" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="6420ad2c-c610-4f92-bc74-2a0146857018" ChangeDateTime="02/26/2019 13:13:45">
+    <Property Name="ElementName" Value="[dbo].[Category].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Category]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CategoryId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6ed118f5-1c4b-40cd-bd80-e46bc219a50e" ChangeDateTime="02/26/2019 13:16:19">
+    <Property Name="ElementName" Value="[dbo].[Category].[Name]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Category]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CreatedDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c7d4d4a3-761b-4f5a-939f-62f258a19fab" ChangeDateTime="02/26/2019 13:16:26">
+    <Property Name="ElementName" Value="[dbo].[Category].[CreatedDate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Category]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CreationDate" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ddbeaf3b-9c7e-492a-b96a-11fd3997adb6" ChangeDateTime="02/26/2019 13:16:59">
+    <Property Name="ElementName" Value="[dbo].[Category].[ModifiedDate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Category]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LastModified" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="52fdba86-275e-4338-8eb8-84518f567036" ChangeDateTime="02/26/2019 13:29:44">
+    <Property Name="ElementName" Value="[dbo].[Todo].[Category]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Todo]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CategoryId" />
+  </Operation>
 </Operations>

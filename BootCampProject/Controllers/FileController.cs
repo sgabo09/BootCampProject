@@ -1,5 +1,4 @@
-﻿using System;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Web;
 using System.Web.Mvc;
 
@@ -7,8 +6,7 @@ namespace BootCampProject.Controllers
 {
     public class FileController : Controller
     {
-        //TODO: Check why not working
-        [HttpGet]
+        [Route("file/download/{filename}")]
         public FileResult GetFile(string fileName)
         {
             var filePath = ConfigurationManager.AppSettings.Get("ThumbnailPath") + fileName + ".png";

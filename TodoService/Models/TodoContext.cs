@@ -11,6 +11,7 @@ namespace TodoService.Models
         }
 
         public DbSet<Todo> Todos { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
