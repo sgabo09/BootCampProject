@@ -12,7 +12,7 @@ namespace BootCampProject.Controllers
             var filePath = ConfigurationManager.AppSettings.Get("ThumbnailPath") + fileName + ".png";
             var bytes = System.IO.File.ReadAllBytes(filePath);
     
-            return File(bytes, MimeMapping.GetMimeMapping(filePath), fileName);
+            return File(bytes, MimeMapping.GetMimeMapping("image/png"), fileName);
         }
     }
 }

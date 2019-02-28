@@ -34,9 +34,9 @@ namespace TodoService.Logics
             return _db.Todos.Where(c => categoryId == c.CategoryId);
         }
         
-        public Dictionary<string, List<Todo>> GetAllTodosByCategory()
+        public List<Category> GetAllTodosByCategory()
         {
-            return _db.Todos.Include("Category").GroupBy(t => t.Category).ToDictionary(g => g.Key.Name, g => g.ToList());
+            return _db.Categories.Include("Todos").ToList();
         }
 
         public IEnumerable<Todo> GetRecentTodos()

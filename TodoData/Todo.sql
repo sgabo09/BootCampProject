@@ -1,11 +1,11 @@
 ﻿CREATE TABLE [dbo].[Todo]
 (
 	[Id] UNIQUEIDENTIFIER ROWGUIDCOL NOT NULL PRIMARY KEY,
-	[CreationDate] DATETIME2 NULL,
-	[LastModified] DATETIME2 NULL,
+	[CreationDate] DATETIME2 NOT NULL,
+	[LastModified] DATETIME2 NOT NULL,
 	[Name] VARCHAR(50) NOT NULL, 
 	[Description] NVARCHAR(500) NULL, 
-	[Priority] INT NOT NULL, 
+	[Priority] INT NULL, 
 	[Responsible] NVARCHAR(50) NULL, 
 	[Deadline] DATETIME2 NULL, 
 	[Status] NVARCHAR(50) NULL, 
