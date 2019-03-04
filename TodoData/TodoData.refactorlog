@@ -42,4 +42,39 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="CategoryId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="12f95313-7b83-453a-b0ce-2bad38da9813" ChangeDateTime="02/28/2019 13:01:54">
+    <Property Name="ElementName" Value="[dbo].[Log].[Timestamp]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Log]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RequestTime" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="c7862711-9ac2-4d77-afa4-0a54e3e5bc54" ChangeDateTime="03/01/2019 10:06:09">
+    <Property Name="ElementName" Value="[dbo].[Log].[RequestMethod]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Log]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Method" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6ddc3c8b-cb3b-464d-9037-d3f179c87cc3" ChangeDateTime="03/01/2019 10:06:11">
+    <Property Name="ElementName" Value="[dbo].[Log].[RequestUri]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Log]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Uri" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7ceb7824-70e7-4f71-9b46-2ab2c97f3dba" ChangeDateTime="03/01/2019 10:06:19">
+    <Property Name="ElementName" Value="[dbo].[Log].[ResponseStatusCode]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Log]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Header" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a93e14b3-1b5e-472b-b395-3c15715d31cd" ChangeDateTime="03/01/2019 10:06:21">
+    <Property Name="ElementName" Value="[dbo].[Log].[ResponseTime]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Log]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Body" />
+  </Operation>
 </Operations>

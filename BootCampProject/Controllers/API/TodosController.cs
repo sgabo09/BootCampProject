@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.OData;
+using TodoService.Filters;
 using TodoService.Logics;
 using TodoService.Models;
 
@@ -11,8 +12,9 @@ namespace BootCampProject.Controllers.API
     {
         private TodoLogic todoLogic = new TodoLogic();
 
-        // GET: api/todos
-        public IHttpActionResult GetTodos()
+        // GET: api/todos/?name
+        [LoggingFilter(isQuery:true, isBody:true, isHeader:true)]
+        public IHttpActionResult GetTodos([FromUri] string name)
         {
             return Ok(todoLogic.GetAllTodo());
         }
@@ -25,6 +27,7 @@ namespace BootCampProject.Controllers.API
 
         [Route("api/todos/category")]
         [HttpGet]
+        [LoggingFilter]
         public IHttpActionResult GetTodosCategory()
         {
             return Ok(todoLogic.GetAllTodosByCategory());
@@ -72,6 +75,7 @@ namespace BootCampProject.Controllers.API
         }
 
         // POST: api/todos
+        [LoggingFilter]
         public IHttpActionResult PostTodo([FromBody] Todo todo)
         {
             if (!ModelState.IsValid)
