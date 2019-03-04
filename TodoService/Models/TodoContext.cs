@@ -10,9 +10,9 @@ namespace TodoService.Models
         {
         }
 
-        public DbSet<Todo> Todos { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Log> Logs { get; set; }
+        public virtual DbSet<Todo> Todos { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Log> Logs { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

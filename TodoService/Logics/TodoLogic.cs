@@ -11,11 +11,18 @@ namespace TodoService.Logics
 {
     public class TodoLogic : ITodoInterface
     {
-        private TodoContext _db = new TodoContext();
+        private TodoContext _db { get; set; }
         private int _timeInterval = 0;
 
         public TodoLogic()
-        { 
+        {
+            _db = new TodoContext();
+            int.TryParse(ConfigurationManager.AppSettings["RecentTimeInterval"], out _timeInterval);
+        }
+
+        public TodoLogic(TodoContext mockContext)
+        {
+            _db = mockContext;
             int.TryParse(ConfigurationManager.AppSettings["RecentTimeInterval"], out _timeInterval);
         }
 
@@ -26,7 +33,7 @@ namespace TodoService.Logics
 
         public Todo GetTodoById(Guid id)
         {
-            return _db.Todos.Find(id);
+            return _db.Todos.FirstOrDefault(t => t.Id == id);
         }
 
         public IEnumerable<Todo> GetTodosByCategory(Guid categoryId)

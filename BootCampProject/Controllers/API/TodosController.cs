@@ -21,8 +21,15 @@ namespace BootCampProject.Controllers.API
 
         // GET: api/todos/{id}
         public IHttpActionResult GetTodo(Guid id)
-        { 
-            return Ok(todoLogic.GetTodoById(id));
+        {
+            var todo = todoLogic.GetTodoById(id);
+
+            if (todo == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(todo);
         }
 
         [Route("api/todos/category")]

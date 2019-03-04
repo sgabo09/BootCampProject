@@ -1,4 +1,7 @@
-﻿using System;
+﻿using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using BootCampProject.Controllers.API;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TodoTest
@@ -7,8 +10,16 @@ namespace TodoTest
     public class TestHealthController
     {
         [TestMethod]
-        public void TestMethod1()
+        public void GetHealthCheckStatus()
         {
+            var controller = new HealthController
+            {
+                Request = new HttpRequestMessage(), Configuration = new HttpConfiguration()
+            };
+
+            var status = controller.GetHealth().StatusCode;
+
+            Assert.AreEqual(HttpStatusCode.OK, status);
         }
     }
 }
