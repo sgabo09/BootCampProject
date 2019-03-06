@@ -69,6 +69,7 @@ namespace TodoTest
         public void GetTodosById()
         {
             var data = new List<Todo>
+
             {
                 new Todo
                 {
@@ -169,7 +170,7 @@ namespace TodoTest
             var result = service.DeleteTodo(new Guid("7dddfd22-f70d-41ae-9040-293c81acb049"));
 
 
-            Assert.AreEqual(true, data.FirstOrDefault().IsDeleted);
+            Assert.AreEqual(true, data.FirstOrDefault()?.IsDeleted);
             Assert.IsTrue(result);
             mockContext.Verify(m => m.SaveChanges(), Times.Once);
         }
