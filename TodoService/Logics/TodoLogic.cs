@@ -20,9 +20,9 @@ namespace TodoService.Logics
             int.TryParse(ConfigurationManager.AppSettings["RecentTimeInterval"], out _timeInterval);
         }
 
-        public TodoLogic(TodoContext mockContext)
+        public TodoLogic(TodoContext context)
         {
-            _db = mockContext;
+            _db = context;
             int.TryParse(ConfigurationManager.AppSettings["RecentTimeInterval"], out _timeInterval);
         }
 

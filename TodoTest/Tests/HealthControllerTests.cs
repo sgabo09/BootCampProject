@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace TodoTest
 {
     [TestClass]
-    public class TestHealthController
+    public class HealthControllerTests
     {
         [TestMethod]
         public void GetHealthCheckStatus()
