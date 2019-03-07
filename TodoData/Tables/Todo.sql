@@ -12,5 +12,6 @@
 	[CategoryId] UNIQUEIDENTIFIER NULL, 
 	[ParentId] UNIQUEIDENTIFIER NULL, 
 	[IsDeleted] BIT NULL, 
+	[RowVersion] ROWVERSION NOT NULL, 
 	CONSTRAINT [FK_Todo_ToCategory] FOREIGN KEY (CategoryId) REFERENCES [Category]([CategoryId])
 	)

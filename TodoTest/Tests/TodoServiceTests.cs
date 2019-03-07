@@ -163,7 +163,7 @@ namespace TodoTest
             mockSet.As<IQueryable<Todo>>().Setup(m => m.GetEnumerator()).Returns(queryableData.GetEnumerator());
 
             mockContext.Setup(c => c.Todos).Returns(mockSet.Object);
-            mockContext.Setup(m => m.Todos.Find(It.IsAny<object[]>())).Returns<object[]>(i => data.FirstOrDefault(d => d.Id == (Guid)i[0]));
+            mockContext.Setup(m => m.Todos.Find(It.IsAny<Guid>())).Returns(data[0]);
 
             var service = new TodoLogic(mockContext.Object);
 
@@ -233,6 +233,103 @@ namespace TodoTest
 
 
             Assert.AreEqual(2, result.Count());
+        }
+
+        [TestMethod]
+        public void CheckTodoTree()
+        {
+            var data = new List<Todo>
+            {
+                new Todo
+                {
+                    Id = new Guid("7dddfd22-f70d-41ae-9040-293c81acb049"),
+                    Name = "Landing page",
+                    Description = "Home page with header menu",
+                    Priority = 1,
+                    Responsible = "Johnny",
+                    Status = "To-Do",
+                    Deadline = new DateTime(2019, 03, 12),
+                    LastModified = DateTime.Now
+                },
+                new Todo
+                {
+                    Id = new Guid("7dddfd22-f70d-41ae-9040-293c81acb051"),
+                    Name = "User",
+                    Description = "UI",
+                    Priority = 1,
+                    Responsible = "Charles",
+                    Status = "To-Do",
+                    Deadline = new DateTime(2019, 03, 12),
+                    LastModified = DateTime.Now.AddHours(-5),
+                    ParentId =  new Guid("7dddfd22-f70d-41ae-9040-293c81acb049")
+                },
+                new Todo
+                {
+                    Id = new Guid("7dddfd22-f70d-41ae-9040-293c81acb050"),
+                    Name = "Home",
+                    Description = "CSS",
+                    Priority = 1,
+                    Responsible = "Joseph",
+                    Status = "Open",
+                    Deadline = new DateTime(2019, 03, 12),
+                    LastModified = DateTime.Now.AddHours(-3),
+                    ParentId =  new Guid("7dddfd22-f70d-41ae-9040-293c81acb049")
+                },
+                new Todo
+                {
+                    Id = new Guid("7dddfd22-f70d-41ae-9040-293c81acb052"),
+                    Name = "Landing page",
+                    Description = "Home page with header menu",
+                    Priority = 1,
+                    Responsible = "Johnny",
+                    Status = "To-Do",
+                    Deadline = new DateTime(2019, 03, 12),
+                    LastModified = DateTime.Now
+                },
+                new Todo
+                {
+                    Id = new Guid("7dddfd22-f70d-41ae-9040-293c81acb053"),
+                    Name = "Home",
+                    Description = "CSS",
+                    Priority = 1,
+                    Responsible = "Joseph",
+                    Status = "Open",
+                    Deadline = new DateTime(2019, 03, 12),
+                    LastModified = DateTime.Now.AddHours(-3),
+                },
+                new Todo
+                {
+                    Id = new Guid("7dddfd22-f70d-41ae-9040-293c81acb054"),
+                    Name = "User",
+                    Description = "UI",
+                    Priority = 1,
+                    Responsible = "Charles",
+                    Status = "To-Do",
+                    Deadline = new DateTime(2019, 03, 12),
+                    LastModified = DateTime.Now.AddHours(-5),
+                    ParentId =  new Guid("7dddfd22-f70d-41ae-9040-293c81acb049")
+                }
+            }.AsEnumerable();
+
+            var queryableData = data.AsQueryable();
+
+            var mockSet = new Mock<DbSet<Todo>>();
+            var mockContext = new Mock<TodoContext>();
+            mockSet.As<IQueryable<Todo>>().Setup(m => m.Provider).Returns(queryableData.Provider);
+            mockSet.As<IQueryable<Todo>>().Setup(m => m.Expression).Returns(queryableData.Expression);
+            mockSet.As<IQueryable<Todo>>().Setup(m => m.ElementType).Returns(queryableData.ElementType);
+            mockSet.As<IQueryable<Todo>>().Setup(m => m.GetEnumerator()).Returns(queryableData.GetEnumerator());
+
+            mockContext.Setup(c => c.Todos).Returns(mockSet.Object);
+
+            var service = new TodoLogic(mockContext.Object);
+
+
+            var result = service.GetTodoTree();
+
+
+            Assert.AreEqual(3, result.Count());
+            Assert.AreEqual(3, result.FirstOrDefault()?.Children.Count);
         }
     }
 }

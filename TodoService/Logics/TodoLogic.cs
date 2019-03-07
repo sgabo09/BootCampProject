@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Web.Http;
 using System.Web.Http.OData;
+using System.Web.Http.Results;
 using TodoService.Models;
 using Guid = System.Guid;
 
@@ -55,27 +59,21 @@ namespace TodoService.Logics
 
         public IEnumerable<TreeNode> GetTodoTree()
         {
-            var dictionary = new Dictionary<Guid, TreeNode>();
             var rootNodes = new List<TreeNode>();
+            var treeNodes = _db.Todos
+                .Select(x => new TreeNode() { Node = x })
+                .ToList();
+            var dictionary = treeNodes.GroupBy(x => x.Node.ParentId).ToDictionary(x => x.Key, x => x.ToList());
 
-            foreach (var todo in _db.Todos)
+            foreach (var todo in treeNodes)
             {
-                var treeNode = new TreeNode {Node = todo};
-
-                dictionary.Add(todo.Id, treeNode);
-
-                if (todo.ParentId == Guid.Empty)
+                if (todo.Node.ParentId == Guid.Empty)
                 {
-                    rootNodes.Add(treeNode);
+                    rootNodes.Add(todo);
                 }
 
-                foreach (var item in dictionary.Values)
-                {
-                    if (item.Node.ParentId == todo.Id)
-                    {
-                        treeNode.Children.Add(item);
-                    }
-                }
+                if (dictionary.ContainsKey(todo.Node.Id))
+                todo.Children = dictionary[todo.Node.Id];
             }
 
             return rootNodes;
@@ -88,19 +86,24 @@ namespace TodoService.Logics
             return _db.Database.SqlQuery<Task>("EXEC GetTasksByResponsible @Responsible", param1).ToList();
         }
 
-        public bool PatchTodo(Guid id, Delta<Todo> todo)
+        public void PatchTodo(Guid id, Todo todo)
         {
-            var temp = _db.Todos.Find(id);
-            if (temp is null)
+            //var temp = _db.Todos.Find(id);
+            //if (temp is null)
+            //{
+            //    throw new KeyNotFoundException();
+            //}
+            todo.Id = id;
+            todo.LastModified = DateTime.Now;
+            _db.Entry(_db.Todos.Find(id)).CurrentValues.SetValues(todo);
+            try
             {
-                return false;
+                _db.SaveChanges();
             }
-            
-            temp.LastModified = DateTime.Now;
-            todo.Patch(temp);
-            _db.SaveChanges();
-
-            return true;
+            catch (DBConcurrencyException exception)
+            {
+                throw exception;
+            }
         }
 
         public void PostTodo(Todo todo)

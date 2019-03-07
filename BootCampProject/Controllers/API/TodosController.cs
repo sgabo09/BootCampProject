@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Web.Http;
 using System.Web.Http.OData;
 using TodoService.Filters;
@@ -12,9 +13,9 @@ namespace BootCampProject.Controllers.API
     {
         private TodoLogic todoLogic = new TodoLogic();
 
-        // GET: api/todos/?name
+        // GET: api/todos/
         [LoggingFilter(isQuery:true, isBody:true, isHeader:true)]
-        public IHttpActionResult GetTodos([FromUri] string name)
+        public IHttpActionResult GetTodos()
         {
             return Ok(todoLogic.GetAllTodo());
         }
@@ -69,16 +70,28 @@ namespace BootCampProject.Controllers.API
         }
 
         // PATCH: api/todos{id}
-        public IHttpActionResult PatchTodo(Guid id, [FromBody] Delta<Todo> todo)
+        public IHttpActionResult PatchTodo(Guid id, [FromBody]Todo todo)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var isPatched = todoLogic.PatchTodo(id, todo);
+            try
+            {
+               todoLogic.PatchTodo(id, todo);
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (DBConcurrencyException)
+            {
+                throw;
+            }
 
-            return isPatched ? (IHttpActionResult) Ok("Todo updated successfully.") : NotFound();
+            return Ok("Todo updated successfully.");
+
         }
 
         // POST: api/todos

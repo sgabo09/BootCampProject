@@ -44,5 +44,7 @@ namespace TodoService.Models
         }
         public bool IsDeleted { get; set; }
         public Category Category { get; set; }
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
     }
 }

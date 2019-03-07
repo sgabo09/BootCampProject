@@ -19,6 +19,7 @@ namespace TodoService.Models
             Database.SetInitializer<TodoContext>(null);
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Filter("IsDeleted", (Todo t) => (t.IsDeleted), false);
+            modelBuilder.Entity<Todo>().Property(p => p.RowVersion).IsConcurrencyToken();
         }
     }
 }
