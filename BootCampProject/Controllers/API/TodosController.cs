@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Web.Http;
-using System.Web.Http.OData;
 using TodoService.Filters;
+using TodoService.Interfaces;
 using TodoService.Logics;
 using TodoService.Models;
 
@@ -11,7 +11,13 @@ namespace BootCampProject.Controllers.API
 {
     public class TodosController : ApiController
     {
-        private TodoLogic todoLogic = new TodoLogic();
+        private ITodoInterface todoLogic;
+        private IssueLogic issueLogic = new IssueLogic();
+
+        public TodosController(ITodoInterface logic)
+        {
+            this.todoLogic = logic;
+        }
 
         // GET: api/todos/
         [LoggingFilter(isQuery:true, isBody:true, isHeader:true)]
@@ -64,9 +70,15 @@ namespace BootCampProject.Controllers.API
 
         [Route("api/todos/responsibility/{responsible}")]
         [HttpGet]
-        public List<Task> GetTasks(string responsible)
+        public IHttpActionResult GetTasks(string responsible)
         {
-            return todoLogic.GetTasksByResponsible(responsible);
+            return Ok(todoLogic.GetTasksByResponsible(responsible));
+        }
+
+        [Route("api/todos/git")]
+        public IHttpActionResult GetGitIssues()
+        {
+            return Ok(issueLogic.GetIssuesFromGitRepository());
         }
 
         // PATCH: api/todos{id}

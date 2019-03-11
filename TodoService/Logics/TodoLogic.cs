@@ -2,12 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web.Http;
-using System.Web.Http.OData;
-using System.Web.Http.Results;
+using TodoService.Interfaces;
 using TodoService.Models;
 using Guid = System.Guid;
 
@@ -24,11 +21,11 @@ namespace TodoService.Logics
             int.TryParse(ConfigurationManager.AppSettings["RecentTimeInterval"], out _timeInterval);
         }
 
-        public TodoLogic(TodoContext context)
-        {
-            _db = context;
-            int.TryParse(ConfigurationManager.AppSettings["RecentTimeInterval"], out _timeInterval);
-        }
+        //public TodoLogic(TodoContext context)
+        //{
+        //    _db = context;
+        //    int.TryParse(ConfigurationManager.AppSettings["RecentTimeInterval"], out _timeInterval);
+        //}
 
         public IQueryable<Todo> GetAllTodo()
         {
